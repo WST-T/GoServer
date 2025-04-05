@@ -23,10 +23,10 @@ func main() {
 
 	handler := http.FileServer(http.Dir(filepathRoot))
 	mux.Handle("/app/", apiCfg.middlewareMetricsInc(http.StripPrefix("/app/", handler)))
-	mux.HandleFunc("GET /healthz", handlerRead)
-	mux.HandleFunc("GET /error", handlerError)
-	mux.HandleFunc("GET /metrics", apiCfg.metricsHandler)
-	mux.HandleFunc("POST /reset", apiCfg.resetHandler)
+	mux.HandleFunc("GET /api/healthz", handlerRead)
+	mux.HandleFunc("GET /api/error", handlerError)
+	mux.HandleFunc("GET /admin/metrics", apiCfg.metricsHandler)
+	mux.HandleFunc("POST /admin/reset", apiCfg.resetHandler)
 
 	srv := &http.Server{
 		Addr:         ":" + port,
