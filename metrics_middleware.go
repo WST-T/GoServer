@@ -10,6 +10,7 @@ func (cfg *apiConfig) middlewareMetricsInc(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
 func (cfg *apiConfig) resetHandler(w http.ResponseWriter, r *http.Request) {
 	if cfg.platform != "dev" {
 		respondWithError(w, http.StatusForbidden, "Not allowed", nil)
