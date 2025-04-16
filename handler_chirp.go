@@ -54,3 +54,19 @@ func (apiCfg *apiConfig) handlerCreateChirp(w http.ResponseWriter, r *http.Reque
 	}
 	respondWithJSON(w, http.StatusCreated, databaseChirpToChirp(chirp))
 }
+
+func (apiCfg *apiConfig) handlerGetChirps(w http.ResponseWriter, r *http.Request) {
+	dbChirps, err := apiCfg.DB.GetChirps(r.Context())
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Couldn't retrieve chirps", err)
+		return
+	}
+
+	chirps := []Chirp{} // Use the API model defined in models.go
+
+	for _, dbChirp := range dbChirps {
+		chirps = append(chirps, databaseChirpToChirp(dbChirp))
+	}
+
+	respondWithJSON(w, http.StatusOK, chirps)
+}
